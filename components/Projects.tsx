@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Project } from "../typings";
+import { urlFor } from "../sanity";
+import Link from "next/link";
 
-type Props = {};
+type Props = {
+  projects: Project[];
+};
 
-function Projects({}: Props) {
-  const projects = [1, 2, 3, 4, 5];
+function Projects({ projects }: Props) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -18,40 +22,39 @@ function Projects({}: Props) {
 
       <div className="relative w-full flex overflow-x-scroll overflow-y-hidden snap-x snap-mandatory z-20 scrollbar scrollbar-track-gray-400/20 scrollbar-thumb-[#F7AB0A]/80">
         {projects.map((project, i) => (
-          <div className="w-screen flex flex-col space-y-5 items-center justify-center flex-shrink-0 snap-center p-20 md:p-44 h-screen">
-            <motion.img
-              initial={{
-                y: -300,
-                opacity: 0,
-              }}
-              transition={{ duration: 1.2 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              src="https://www.pixeden.com/media/k2/galleries/859/001-screen-showcase-landing-page-devices-presentation-web-psd-projects-vol-02.jpg"
-              alt=""
-            />
+          <motion.div
+            key={project._id}
+            className="w-screen flex flex-col space-y-5 items-center justify-center flex-shrink-0 snap-center p-20 md:p-44 h-screen"
+          >
+            <Link key={project._id} href={project.linkToBuild}>
+              <motion.img
+                initial={{
+                  y: -300,
+                }}
+                transition={{ duration: 1.2 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                src={urlFor(project?.image).url()}
+                className="md:mb-0 flex-shrink-0 w-60 h-60 md:rounded-lg md:w-64 md:h-96 xl:w-[500px] xl:h-[300px] object-contain cursor-pointer"
+              />
+            </Link>
 
             <div className="space-y-10 px-0 md:px-10 max-w-6xl">
               <h4 className="text-4xl font-semibold text-center">
-                <span className="underline decoration-[#F7AB0A]/50">
+                <span className="decoration-[#F7AB0A]/50 underline">
                   Case Study {i + 1} of {projects.length}:
                 </span>{" "}
-                UPS clone
+                {project.title}
               </h4>
 
-              <p className="text-lg text-center md:px-10 max-w-6xl">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer
-                sit amet elit quis nisi cursus cursus. Orci varius natoque
-                penatibus et magnis dis parturient montes, nascetur ridiculus
-                mus. In fringilla est vel arcu vulputate rutrum. Nam viverra
-                ligula arcu, eget porta lorem interdum venenatis. Integer id
-                euismod mi, at auctor nunc.
+              <p className="text-lg text-center md:text-left">
+                {project.summary}
               </p>
             </div>
-          </div>
+          </motion.div>
         ))}
       </div>
-      <div className="w-full absolute top-[30] bg-[#F7AB0A]/10 left-0 h-[500px] -skew-y-12" />
+      <div className="w-full absolute top-[30%] bg-[#F7AB0A]/10 left-0 h-[500px] -skew-y-12" />
     </motion.div>
   );
 }
