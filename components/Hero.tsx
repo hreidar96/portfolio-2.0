@@ -12,7 +12,7 @@ type Props = {
 };
 
 function Hero({ pageInfo }: Props) {
-  const { text, count } = useTypewriter({
+  const { text: string, count } = useTypewriter({
     words: [
       `Hi, The name's ${pageInfo?.name}`,
       "Guy-who-loves-Coffee.tsx",
@@ -39,7 +39,7 @@ function Hero({ pageInfo }: Props) {
           {pageInfo?.role}
         </h2>
         <h1 className="text-5xl lg:text-6xl font-semibold px-10">
-          <span className="mr-3">{text}</span>
+          <span className="mr-3">{string}</span>
           <Cursor />
         </h1>
 
